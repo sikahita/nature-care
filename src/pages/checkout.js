@@ -1,16 +1,21 @@
-import React from "react";
+import {useState} from "react";
 import '../css/core-style.css'
 import { Image } from "react-bootstrap";
 import Swal from 'sweetalert2'
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 
-export default function Checkout(){
-    let navigate = useNavigate();
-    const [checked, setChecked] = React.useState(true);
+export default function Checkout() {
+    
+    const [checked, setChecked] = useState(true);
+    const {state} = useLocation()
+
+    const {amount_total} = state;
 
     const handleChange = () => {
       setChecked(!checked);
     };
+
+    const navigate = useNavigate();
 
     const handleClick = () => {
       console.log("cliked")
@@ -84,9 +89,9 @@ export default function Checkout(){
                             <div className="cart-summary">
                                 <h5>Cart Total</h5>
                                 <ul className="summary-table">
-                                    <li><span>subtotal:</span> <span>$140.00</span></li>
+                                    <li><span>subtotal:</span> <span>Rp{amount_total}</span></li>
                                     <li><span>delivery:</span> <span>Free</span></li>
-                                    <li><span>total:</span> <span>$140.00</span></li>
+                                    <li><span>total:</span> <span>Rp{amount_total}</span></li>
                                 </ul>
 
                                 <div className="payment-method">
@@ -123,3 +128,5 @@ export default function Checkout(){
         </div>
     )
 }
+
+// export default Checkout()

@@ -15,13 +15,12 @@ import { Link } from "react-scroll";
 import supabase from "../supabaseClient";
 import Swal from 'sweetalert2'
 
-
 const Header = () => {
     const navigate = useNavigate();
 
     const handleClick = () => {
         console.log("clicked")
-        navigate('/checkout', {replace:true});
+        navigate('/checkout', {state: { amount_total: (tableCart.reduce((a,v) => a = a + parseFloat(v.tb_product.productPrice) , 0 )).toFixed(3)}});
     };
 
     function handleEmail(e) {
@@ -33,6 +32,17 @@ const Header = () => {
         ).then((result) => {
             navigate('/')
             window.location.reload(false);
+        })
+    }
+
+    function handleAbout(e) {
+        e.preventDefault();
+        Swal.fire( {
+            title: "Hi! This is the official nature-care website made by Team 3. <br>Nature-care is an online shopping destination offering authentic beauty products especially skin care serving women across Indonesia.",
+            imageUrl: 'https://i.postimg.cc/DzpH3h2C/team3-profile.jpg',
+            imageAlt: 'Custom image',
+            resizeMode: 'cover',
+            width:800
         })
     }
 
@@ -316,7 +326,7 @@ const Header = () => {
                 </div>		
             </section>
 
-            {/* section features */}
+            {/* section promotions */}
             <section id="feature" className="feature">
 			<div className="container">
 				<div className="section-header">
@@ -326,7 +336,7 @@ const Header = () => {
 					<div className="row">
                         {tablePromo.map((data, index) => (
                             <div className="col-sm-3" key={index}>
-                                <div className="single-feature">
+                                <div className="single-feature" >
                                     <Image src={data.promoImage} alt="feature image"/>
                                     <div className="single-feature-txt text-center">
                                         <h5>{data.promoName}</h5>
@@ -349,13 +359,14 @@ const Header = () => {
                                     <div className="hm-foot-title">
                                         <h4>information</h4>
                                     </div>
-                                    <div className="hm-foot-menu">
-                                        <ul>
-                                            <li><NavLink>about us</NavLink></li>
-                                            <li><NavLink>contact us</NavLink></li>
+                                    <div className="hm-foot-para">
+                                        {/* <ul> */}
+                                            <p onClick={handleAbout}>About Us</p>
+                                            <p>Email: help@nature-care.com</p>
+                                            {/* <li><NavLink>contact us</NavLink></li>
                                             <li><NavLink>news</NavLink></li>
                                             <li><NavLink>store</NavLink></li>
-                                        </ul>
+                                        </ul> */}
                                     </div>
                                 </div>
                             </div>
@@ -368,20 +379,6 @@ const Header = () => {
                                 </div>
                             </div>
                             <div className=" col-md-3 col-sm-6 col-xs-12">
-                                {/* <div className="hm-footer-widget">
-                                    <div className="hm-foot-title">
-                                        <h4>my accounts</h4>
-                                    </div>
-                                    <div className="hm-foot-menu">
-                                        <ul>
-                                            <li><NavLink>my account</NavLink></li>
-                                            <li><NavLink>wishlist</NavLink></li>
-                                            <li><NavLink>Community</NavLink></li>
-                                            <li><NavLink>order history</NavLink></li>
-                                            <li><NavLink>my cart</NavLink></li>
-                                        </ul>
-                                    </div>
-                                </div> */}
                             </div>
                             <div className=" col-md-3 col-sm-6  col-xs-12">
                                 <div className="hm-footer-widget">
@@ -413,7 +410,7 @@ const Header = () => {
 			<div className="container">
 				<div className="hm-footer-copyright text-center">
 					<p>
-						&copy;copyright. designed and developed by salsadian
+						&copy; 2022 All Rights Reserved - Team3
 					</p>
 				</div>
 			</div>
